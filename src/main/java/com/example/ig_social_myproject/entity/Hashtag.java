@@ -6,11 +6,15 @@ import lombok.*;
 @Data
 @Entity
 @Table(name = "hashtags")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Hashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hashtagid")
     private Integer hashtagID;
 
-    @Column(unique = true, nullable = false, length = 255)
+    @Column(name = "name", unique = true, nullable = false, length = 255)
     private String name;
+
 }

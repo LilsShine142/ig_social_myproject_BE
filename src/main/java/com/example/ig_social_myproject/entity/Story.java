@@ -4,32 +4,31 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+import com.example.ig_social_myproject.utils._enum.MediaType;
+
 @Data
 @Entity
 @Table(name = "stories")
 public class Story {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "storyid")
     private Integer storyID;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "mediaurl", nullable = false, length = 255)
     private String mediaURL;
 
-    @Column(nullable = false, length = 10)
+    @Column(name = "mediatype", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private MediaType mediaType;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP GENERATED ALWAYS AS (CreatedAt + INTERVAL '24 hours') STORED")
+    @Column(name = "expiresat", columnDefinition = "TIMESTAMP GENERATED ALWAYS AS (createdat + INTERVAL '24 hours') STORED") // Lưu
     private LocalDateTime expiresAt;
-
-    public enum MediaType {
-        image, video
-    }
 }

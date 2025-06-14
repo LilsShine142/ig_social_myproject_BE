@@ -5,19 +5,21 @@ import lombok.*;
 
 @Data
 @Entity
-@Table(name = "pollOptions")
+@Table(name = "polloptions")
 public class PollOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "optionid")
     private Integer optionID;
 
     @ManyToOne
-    @JoinColumn(name = "PollID", nullable = false)
+    @JoinColumn(name = "pollid", nullable = false)
     private Poll poll;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "text", nullable = false, length = 255)
     private String text;
 
-    @Column(columnDefinition = "INT DEFAULT 0")
+    @Column(name = "votecount", columnDefinition = "INT DEFAULT 0")
     private Integer voteCount = 0;
+
 }

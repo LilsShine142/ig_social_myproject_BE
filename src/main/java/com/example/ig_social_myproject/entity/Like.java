@@ -4,26 +4,27 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Data
+import com.example.ig_social_myproject.entity.keys.KeyLiked;
+
 @Entity
 @Table(name = "likes")
+@Data
+@NoArgsConstructor
 public class Like {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer likeID;
+    @EmbeddedId
+    private KeyLiked likeID;
 
+    @MapsId("postid")
     @ManyToOne
-    @JoinColumn(name = "PostID", nullable = false)
+    @JoinColumn(name = "postid", insertable = false, updatable = false)
     private Post post;
 
+    @MapsId("userid")
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", insertable = false, updatable = false)
     private User user;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "PostID", "UserID" }))
-    private static class UniqueConstraintHolder {
-    }
 }

@@ -13,32 +13,33 @@ import com.example.ig_social_myproject.utils._enum.MediaType;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "postid")
     private Integer postID;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "contenturl", nullable = false, length = 255)
     private String contentURL;
 
-    @Column(nullable = false, length = 10)
+    @Column(name = "mediatype", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private MediaType mediaType;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "caption", columnDefinition = "TEXT")
     private String caption;
 
-    @Column(length = 255)
+    @Column(name = "location", length = 255)
     private String location;
 
-    @Column(columnDefinition = "INT DEFAULT 0")
+    @Column(name = "likecount", columnDefinition = "INT DEFAULT 0")
     private Integer likeCount = 0;
 
-    @Column(columnDefinition = "INT DEFAULT 0")
+    @Column(name = "commentcount", columnDefinition = "INT DEFAULT 0")
     private Integer commentCount = 0;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
 }

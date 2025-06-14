@@ -5,26 +5,27 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@Entity
-@Table(name = "storyViews")
-public class StoryView {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer viewID;
+import com.example.ig_social_myproject.entity.keys.KeyStoryView;
 
+@Entity
+@Table(name = "storyviews")
+@Data
+@NoArgsConstructor
+public class StoryView {
+    @EmbeddedId
+    private KeyStoryView viewID;
+
+    @MapsId("storyid") // Phải khớp với tên field trong StoryViewId
     @ManyToOne
-    @JoinColumn(name = "StoryID", nullable = false)
+    @JoinColumn(name = "storyid", nullable = false, insertable = false, updatable = false)
     private Story story;
 
+    @MapsId("userid") // Phải khớp với tên field trong StoryViewId
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", nullable = false, insertable = false, updatable = false)
     private User user;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "viewedat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime viewedAt;
 
-    @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "StoryID", "UserID" }))
-    private static class UniqueConstraintHolder {
-    }
 }

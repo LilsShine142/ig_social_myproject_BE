@@ -9,20 +9,21 @@ import com.example.ig_social_myproject.utils._enum.BadgeType;
 
 @Data
 @Entity
-@Table(name = "userBadges")
+@Table(name = "userbadges")
 public class UserBadge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "badgeid")
     private Integer badgeID;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "badgetype", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private BadgeType badgeType;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "awardedat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime awardedAt;
 }
