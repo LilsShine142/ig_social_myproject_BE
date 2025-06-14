@@ -7,28 +7,39 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "messages")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "messageid")
     private Integer messageID;
 
     @ManyToOne
-    @JoinColumn(name = "SenderID", nullable = false)
+    @JoinColumn(name = "senderid", nullable = false)
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "ReceiverID", nullable = false)
+    @JoinColumn(name = "receiverid", nullable = false)
     private User receiver;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(length = 255)
+    @Column(name = "mediaurl", length = 255)
     private String mediaURL;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "isread", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isRead = false;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
+
+    @Column(name = "updatedat", columnDefinition = "TIMESTAMP")
+    private LocalDateTime updatedAt;
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

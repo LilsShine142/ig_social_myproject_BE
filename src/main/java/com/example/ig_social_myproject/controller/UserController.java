@@ -1,5 +1,6 @@
 package com.example.ig_social_myproject.controller;
 
+import com.example.ig_social_myproject.exception.ResourceNotFoundException;
 import com.example.ig_social_myproject.model.dto.UserDTO;
 import com.example.ig_social_myproject.model.response.ResponseHandler;
 import com.example.ig_social_myproject.service.user.UserService;
@@ -28,8 +29,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Integer userId) {
-        UserDTO response = userService.getUserById(userId);
-        return responseHandler.responseSuccess("Lấy thông tin người dùng thành công", response);
+        try {
+            UserDTO response = userService.getUserById(userId);
+            return responseHandler.responseSuccess("Lấy thông tin người dùng thành công", response);
+        } catch (ResourceNotFoundException ex) {
+            // System.err.println("Lỗi: " + ex.getMessage());
+            return responseHandler.handleNotFound(ex.getMessage());
+        }
     }
 
     @PutMapping("/{userId}")

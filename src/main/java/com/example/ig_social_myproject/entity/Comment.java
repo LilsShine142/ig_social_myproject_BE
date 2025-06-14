@@ -11,23 +11,24 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentid")
     private Integer commentID;
 
     @ManyToOne
-    @JoinColumn(name = "PostID", nullable = false)
+    @JoinColumn(name = "postid", nullable = false)
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "ParentCommentID")
+    @JoinColumn(name = "parentcommentid")
     private Comment parentComment;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 }

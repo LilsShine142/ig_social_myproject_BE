@@ -4,20 +4,27 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Data
+import com.example.ig_social_myproject.entity.keys.KeyFollow;
+
 @Entity
-@Table(name = "Follows")
+@Table(name = "follows")
+@Data
+@NoArgsConstructor
 public class Follow {
-    @Id
+    @EmbeddedId
+    private KeyFollow followID;
+
+    @MapsId("followerid")
     @ManyToOne
-    @JoinColumn(name = "FollowerID", nullable = false)
+    @JoinColumn(name = "followerid", insertable = false, updatable = false)
     private User follower;
 
-    @Id
+    @MapsId("followeeid")
     @ManyToOne
-    @JoinColumn(name = "FolloweeID", nullable = false)
+    @JoinColumn(name = "followeeid", insertable = false, updatable = false)
     private User followee;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
+
 }

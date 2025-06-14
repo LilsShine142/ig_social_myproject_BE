@@ -2,28 +2,31 @@ package com.example.ig_social_myproject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "polls")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pollid")
     private Integer pollID;
 
     @ManyToOne
-    @JoinColumn(name = "PostID")
+    @JoinColumn(name = "postid")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "StoryID")
+    @JoinColumn(name = "storyid")
     private Story story;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(name = "question", nullable = false, columnDefinition = "TEXT")
     private String question;
 
-    @Column
+    @Column(name = "expiresat")
     private LocalDateTime expiresAt;
+
 }
