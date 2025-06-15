@@ -2,9 +2,11 @@ package com.example.ig_social_myproject.controller;
 
 import com.example.ig_social_myproject.exception.ResourceNotFoundException;
 import com.example.ig_social_myproject.model.dto.UserDTO;
+import com.example.ig_social_myproject.model.request.UserRequest;
 import com.example.ig_social_myproject.model.response.ResponseHandler;
 import com.example.ig_social_myproject.service.user.UserService;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
-        UserDTO response = userService.createUser(userDTO);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest userRequest) {
+        UserDTO response = userService.createUser(userRequest);
         return responseHandler.responseCreated("Tạo người dùng thành công", response);
     }
 
@@ -33,7 +35,6 @@ public class UserController {
             UserDTO response = userService.getUserById(userId);
             return responseHandler.responseSuccess("Lấy thông tin người dùng thành công", response);
         } catch (ResourceNotFoundException ex) {
-            // System.err.println("Lỗi: " + ex.getMessage());
             return responseHandler.handleNotFound(ex.getMessage());
         }
     }

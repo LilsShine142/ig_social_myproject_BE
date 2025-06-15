@@ -1,10 +1,14 @@
 package com.example.ig_social_myproject.service.user;
 
 import com.example.ig_social_myproject.model.dto.UserDTO;
+import com.example.ig_social_myproject.model.request.UserRequest;
 import com.example.ig_social_myproject.entity.User;
 import com.example.ig_social_myproject.exception.DuplicateResourceException;
 import com.example.ig_social_myproject.exception.ResourceNotFoundException;
 import com.example.ig_social_myproject.repository.UserRepository;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,24 +24,26 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
-        if (userRepository.existsByUsername(userDTO.getUsername())) {
+    // @Transactional(noRollbackFor = DuplicateResourceException.class)
+    public UserDTO createUser(UserRequest userRequest) {
+        // Kiểm tra trùng username/email
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new DuplicateResourceException("Tên đăng nhập đã tồn tại");
         }
-        if (userRepository.existsByEmail(userDTO.getEmail())) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new DuplicateResourceException("Email đã tồn tại");
         }
 
+        // Tạo user mới
         User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(userDTO.getPasswordHash()));
-        user.setFullName(userDTO.getFullName());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setProfilePicture(userDTO.getProfilePicture());
-        user.setBio(userDTO.getBio());
-        user.setIsPrivate(userDTO.getIsPrivate());
-        user.setIsVerified(userDTO.getIsVerified());
+        user.setUsername(userRequest.getUsername());
+        user.setEmail(userRequest.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
+        user.setFullName(userRequest.getFullName());
+        user.setPhoneNumber(userRequest.getPhoneNumber());
+        user.setProfilePicture(userRequest.getProfilePicture());
+        user.setBio(userRequest.getBio());
+        user.setCreatedAt(LocalDateTime.now());
 
         user = userRepository.save(user);
         return mapToUserDTO(user);
