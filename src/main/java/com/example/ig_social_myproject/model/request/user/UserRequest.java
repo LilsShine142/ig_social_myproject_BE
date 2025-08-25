@@ -1,9 +1,11 @@
-package com.example.ig_social_myproject.model.request;
+package com.example.ig_social_myproject.model.request.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class UserRequest {
@@ -29,4 +31,17 @@ public class UserRequest {
     private String profilePicture;
 
     private String bio;
+
+    // Các trường mới
+    private Integer roleId; // ID của role, mặc định sẽ là 1 (USER role)
+
+    private Boolean isPrivate; // Tài khoản có riêng tư không
+
+    private Boolean isVerified; // Tài khoản có được xác thực không
+
+    private Boolean isActive; // Tài khoản có hoạt động không
+
+    private Boolean isLocked; // Tài khoản có bị khóa không
+
+    private LocalDateTime lastLogin; // Thời gian đăng nhập cuối (thường không cần trong request)
 }

@@ -3,6 +3,7 @@ package com.example.ig_social_myproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -42,4 +43,42 @@ public class User {
 
     @Column(name = "createdat", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
+
+    @Column(name = "role_id")
+    private Integer roleId;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @Column(name = "is_locked")
+    private Boolean isLocked;
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
+
+    // Relationship với Role (nếu dùng role_id trực tiếp)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
+    private Role role;
+
+    // Relationships với roles thông qua user_roles (nếu vẫn muốn giữ many-to-many)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserRole> userRoles;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        if (isPrivate == null) {
+            isPrivate = false;
+        }
+        if (isVerified == null) {
+            isVerified = false;
+        }
+        if (isActive == null) {
+            isActive = true;
+        }
+        if (isLocked == null) {
+            isLocked = false;
+        }
+    }
 }

@@ -2,7 +2,7 @@ package com.example.ig_social_myproject.controller;
 
 import com.example.ig_social_myproject.exception.ResourceNotFoundException;
 import com.example.ig_social_myproject.model.dto.UserDTO;
-import com.example.ig_social_myproject.model.request.UserRequest;
+import com.example.ig_social_myproject.model.request.user.UserRequest;
 import com.example.ig_social_myproject.model.response.ResponseHandler;
 import com.example.ig_social_myproject.service.user.UserService;
 import jakarta.validation.Valid;
